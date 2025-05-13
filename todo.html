@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Список справ</title>
+    <link rel="stylesheet" href="style1.css">
+</head>
+
+<body>
+
+    <button id="themeToggle">Перемкнути тему</button>
+
+    <h1>Мій список справ</h1>
+
+    <input type="text" id="taskInput" placeholder="Нове завдання">
+    <button onclick="addTask()">Додати</button>
+
+    <div id="filters">
+        <button onclick="setFilter('all')">Усі</button>
+        <button onclick="setFilter('done')">Виконані</button>
+        <button onclick="setFilter('undone')">Невиконані</button>
+    </div>
+    <ul id="taskList"></ul>
+
+    <div id="stats">
+        <p>Всього: <span id="total">0</span></p>
+        <p>Виконано: <span id="done">0</span></p>
+        <p>Залишилось: <span id="undone">0</span></p>
+    </div>
+
+    <script src="todo.js"></script>
+</body>
+
+</html>

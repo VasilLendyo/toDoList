@@ -1,0 +1,113 @@
+body{
+    font-family: Arial, sans-serif;
+    margin: 40px;
+    background: #f0f0f0;
+}
+
+h1{
+    color: #333;
+}
+
+input{
+    padding: 10px;
+    font-size: 16px;
+    width: 200px;
+}
+
+button{
+    padding: 10px;
+    font-size: 16px;
+}
+
+ul{
+    padding: 8px;
+    background: #fff;
+    margin-top: 5px;
+    cursor: pointer;
+}
+
+li.done{
+    text-decoration: line-through;
+    color: gray;
+}
+
+.delete-btn{
+    margin-left: 10px;
+    background: red;
+    color: white;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+li {
+    padding: 8px;
+    background: #fff;
+    margin-top: 5px;
+    cursor: pointer;
+    display: flex;
+    justify-items: space-between;
+    align-items: center;
+}
+
+#stats{
+    margin-top: 20px;
+    padding: 10px;
+    background: #e0e0e0;
+    border-radius: 10px;
+    text-align: center;
+    font-weight: bold;
+}
+
+#filters{
+    text-align:center;
+    margin-bottom: 10px;
+}
+
+#filters button{
+    margin: 0 5px;
+    padding: 5px 10px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#filters button:hover{
+    background: #005603;
+}
+
+body.light{
+    background: #f0f0f0;
+    color: #000;
+}
+
+body.dark{
+    background: #121212;
+    color: #fff;
+}
+
+.dark input, 
+.dark button, 
+.dark #taskList li, 
+.dark #stats, 
+.dark #filters button{
+    background: #333;
+    color: #fff;
+    border-color: #555;
+}
+
+#themeToggle{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: none;
+    background: #555;
+    color: white;
+    cursor: pointer;
+}
+
