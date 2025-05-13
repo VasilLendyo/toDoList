@@ -33,7 +33,6 @@ function addTask() {
 
 function showTask(task){
     const li = document.createElement("li");
-    li.textContent = task.text;
 
     if(task.done)
         li.classList.add("done");
@@ -43,6 +42,34 @@ function showTask(task){
         li.classList.toggle("done");
         saveTasks();
         updateStats();
+    };
+
+    const textSpan = document.createElement("span");
+    textSpan.textContent = task.text;
+    textSpan.className = "task-text";
+
+    textSpan.ondblclick = (e) => {
+        e.stopPropagation();
+
+        const input = document.createElement("input");
+        input.type = "text";
+        input.value = task.text;
+        input.className = "editInput";
+        
+
+        input.onblur = () => {
+            task.text = input.value.trim() || task.text;
+            saveTasks();
+            renderTasks();
+        };
+
+        input.onkeydown = (e) => {
+            if(e.key === "Enter"){
+                input.blur();
+            }
+        };
+        li.replaceChild(input, textSpan);
+        input.focus();
     };
 
     const delBtn = document.createElement("button");
@@ -56,6 +83,7 @@ function showTask(task){
         updateStats();
     };
 
+    li.appendChild(textSpan);
     li.appendChild(delBtn);
 
     document.getElementById("taskList").appendChild(li);

@@ -111,3 +111,15 @@ body.dark{
     cursor: pointer;
 }
 
+.editInput{
+    width: 100%;
+    padding: 5px;
+    font-size: 16px;
+    border: 1px solid #888;
+    border-radius: 5px;
+}
+
+.tesk-text{
+    display: inline-block;
+    margin-right: 10px;
+}
