@@ -1,19 +1,5 @@
 let tasks = [];
 
-// window.onload = function(){
-//     const saved = localStorage.getItem("tasks");
-//     if(saved) {
-//         tasks = JSON.parse(saved);
-//         tasks.forEach(showTask);
-//     }
-//     updateStats();
-// };
-
-window.onload = () => {
-    tasks = JSON.parse(localStorage.getItem("tasks") || "[]");
-    renderTasks();
-};
-
 function addTask() {
     const input = document.getElementById("taskInput");
     const taskText = input.value.trim();
@@ -33,6 +19,22 @@ function addTask() {
 
 function showTask(task){
     const li = document.createElement("li");
+    li.draggable = true;
+
+    li.addEventListener("dragstart", (e) => {
+        li.classList.add("dragging");
+    });
+    li.addEventListener("dragend", (e) => {
+        li.classList.remove("dragging");
+        const newTasks = [];
+        document.querySelectorAll("#taskList li").forEach(liEl => {
+            const text = liEl.querySelector("span")?.textContent || "";
+            const old = tasks.find(t => t.text === text);
+            if(old) newTasks.push(old);
+        });
+        tasks = newTasks;
+        saveTasks();
+    });
 
     if(task.done)
         li.classList.add("done");
@@ -110,6 +112,34 @@ function renderTasks(){
     const list = document.getElementById("taskList");
     list.innerHTML = "";
 
+    list.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        const dragging = document.querySelector(".dragging");
+        const afterElement = getDragAfterElement(list, e.clientY);
+        if(afterElement == null){
+            list.appendChild(dragging);
+        }else{
+            list.insertBefore(dragging, afterElement);
+        }
+    });
+
+    function getDragAfterElement(container, y){
+        const draggableElements = [...container.querySelectorAll("li:not(.dragging)")];
+        
+        return draggableElements.reduce((closest, child) => {
+            const box = child.getBoundingClientRect();
+            const offset = y - box.top - box.height/2;
+            if (offset < 0 && offset > closest.offset){
+                return {
+                    offset: offset, element: child
+                };
+            
+        }else{
+                return closest;
+            }
+    }, {offset: Number.NEGATIVE_INFINITY}).element;
+    }
+
     let filteredTasks = tasks;
     if(currentFilter === 'done'){
         filteredTasks = tasks.filter(t => t.done);
@@ -139,3 +169,7 @@ window.onload = () => {
 
     renderTasks();
 };
+
+document.getElementById("currentDay").textContent = "Сьогодні: " + new Date().toLocaleDateString("uk-UA", {
+    weekday: 'long', day: 'numeric', month: 'long'
+});

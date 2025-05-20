@@ -123,3 +123,9 @@ body.dark{
     display: inline-block;
     margin-right: 10px;
 }
+
+li.dragging{
+    opacity: 0.5;
+    background-color: #333;
+    border: 2px dashed #888;
+}
