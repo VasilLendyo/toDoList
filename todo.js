@@ -9,12 +9,14 @@ function addTask() {
         return;
     }
 
-    const task = {text: taskText, done: false};
+    const selectedCategory = document.getElementById("categorySelect").value;
+    const task = {text: taskText, done: false, category: selectedCategory};
+
     tasks.push(task);
     saveTasks();
     showTask(task);
     input.value = "";
-    updateStats();
+    updateStats();  
 }
 
 function showTask(task){
@@ -47,7 +49,8 @@ function showTask(task){
     };
 
     const textSpan = document.createElement("span");
-    textSpan.textContent = task.text;
+    textSpan.textContent = `[${task.category}] ${task.text}`;
+
     textSpan.className = "task-text";
 
     textSpan.ondblclick = (e) => {
@@ -145,6 +148,11 @@ function renderTasks(){
         filteredTasks = tasks.filter(t => t.done);
     }else if(currentFilter === 'undone'){
         filteredTasks = tasks.filter(t => !t.done);
+    }
+
+    const selectedCategory = document.getElementById("categorySelect").value;
+    if(selectedCategory !== "Всі"){
+        filteredTasks = filteredTasks.filter(t => t.category === selectedCategory);
     }
 
     filteredTasks.forEach(showTask);
