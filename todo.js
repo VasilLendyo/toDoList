@@ -1,3 +1,10 @@
+let categories = [
+  { name: "Робота", color: "#3498db" },
+  { name: "Дім", color: "#2ecc71" },
+  { name: "Навчання", color: "#f39c12" }
+];
+
+
 let tasks = [];
 
 function addTask() {
@@ -27,16 +34,17 @@ function showTask(task){
         li.classList.add("dragging");
     });
     li.addEventListener("dragend", (e) => {
-        li.classList.remove("dragging");
-        const newTasks = [];
-        document.querySelectorAll("#taskList li").forEach(liEl => {
-            const text = liEl.querySelector("span")?.textContent || "";
-            const old = tasks.find(t => t.text === text);
-            if(old) newTasks.push(old);
-        });
-        tasks = newTasks;
-        saveTasks();
+    li.classList.remove("dragging");
+    const newTasks = [];
+    document.querySelectorAll("#taskList li").forEach(liEl => {
+        const text = liEl.querySelector("span")?.textContent || "";
+        const old = tasks.find(t => `[${t.category}] ${t.text}` === text);
+        if(old) newTasks.push(old);
     });
+    tasks = newTasks;
+    saveTasks();
+});
+
 
     if(task.done)
         li.classList.add("done");
@@ -49,6 +57,13 @@ function showTask(task){
     };
 
     const textSpan = document.createElement("span");
+
+    const cat = categories.find(c => c.name === task.category);
+    if (cat) {
+    li.style.borderLeft = `8px solid ${cat.color}`;
+    }
+
+
     textSpan.textContent = `[${task.category}] ${task.text}`;
 
     textSpan.className = "task-text";
@@ -76,7 +91,7 @@ function showTask(task){
         li.replaceChild(input, textSpan);
         input.focus();
     };
-
+    
     const delBtn = document.createElement("button");
     delBtn.textContent = "x";
     delBtn.className = "delete-btn";
@@ -168,6 +183,17 @@ themeBtn.onclick = () => {
     );
 };
 
+function renderCategoryOptions() {
+    const select = document.getElementById("categorySelect");
+    select.innerHTML = `<option value="Всі">Всі</option>`;
+    categories.forEach(cat => {
+        const opt = document.createElement("option");
+        opt.value = cat.name;
+        opt.textContent = cat.name;
+        select.appendChild(opt);
+    });
+}
+
 window.onload = () => {
     tasks = JSON.parse(localStorage.getItem("tasks") || "[]");
     
@@ -176,8 +202,20 @@ window.onload = () => {
     document.body.classList.add(savedTheme);
 
     renderTasks();
+    renderCategoryOptions();
 };
 
 document.getElementById("currentDay").textContent = "Сьогодні: " + new Date().toLocaleDateString("uk-UA", {
     weekday: 'long', day: 'numeric', month: 'long'
 });
+
+function addCategory() {
+    const name = document.getElementById("newCategoryInput").value.trim();
+    const color = document.getElementById("newCategoryColor").value;
+
+    if (!name) return alert("Введи назву категорії");
+
+    categories.push({ name, color });
+    renderCategoryOptions();
+    document.getElementById("newCategoryInput").value = "";
+}

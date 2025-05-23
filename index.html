@@ -15,12 +15,11 @@
 
     <h1>Мій список справ</h1>
 
-    <select id="categorySelect">
-        <option value="Всі">Всі</option>
-        <option value="Робота">Робота</option>
-        <option value="Дім">Дім</option>
-        <option value="Навчання">Навчання</option>
-    </select>
+    <select id="categorySelect"></select>
+<input type="text" id="newCategoryInput" placeholder="Нова категорія">
+<input type="color" id="newCategoryColor" value="#9b59b6">
+<button onclick="addCategory()">Додати категорію</button>
+
 
     <input type="text" id="taskInput" placeholder="Нове завдання">
     <button onclick="addTask()">Додати</button>
